@@ -2,18 +2,17 @@
 #Smear out the colour of your A plate to create better edges.
 
 set cut_paste_input [stack 0]
-version 6.2 v1
+version 6.3 v4
 push $cut_paste_input
 Group {
- name Colour_Smear10
+ name Colour_Smear
  note_font Verdana
  selected true
- xpos -337
- ypos 47
+ xpos -16
+ ypos 113
  addUserKnob {20 User}
  addUserKnob {26 smearing l Smearing T ""}
  addUserKnob {6 already_premulted l "Click if input is already premulted" t "Click checkbox \"on\" if image is already premulted" +STARTLINE}
- already_premulted true
  addUserKnob {7 pre_choke l Pre-choke R 0 30}
  pre_choke 5.5
  addUserKnob {7 pre_contrast l "Pre Contrast" R 0 0.5}
@@ -29,22 +28,15 @@ Group {
  addUserKnob {7 blur_mask l "Blur Mask" R 0 100}
  blur_mask 5
  addUserKnob {6 output_premulted l "Click to output premultiplied image" +STARTLINE}
- output_premulted true
  addUserKnob {26 ""}
- addUserKnob {26 credit l "" +STARTLINE T "Colour Smear v1.7 by Richard Frazer - www.richardfrazer.com"}
+ addUserKnob {26 RestoreDetail l "Restore Detail"}
+ addUserKnob {7 sharpness l Sharpness R 0 10}
+ sharpness 10
+ addUserKnob {7 amount l Amount}
+ amount 0.66
+ addUserKnob {26 "" +STARTLINE}
+ addUserKnob {26 credit l "" +STARTLINE T "Colour Smear v2.0 by Richard Frazer - www.richardfrazer.com"}
 }
- BackdropNode {
-  inputs 0
-  name BackdropNode19
-  tile_color 0x7171c600
-  label "mask to smear back over shot"
-  note_font Verdana
-  note_font_size 42
-  xpos -767
-  ypos 27
-  bdwidth 649
-  bdheight 976
- }
  BackdropNode {
   inputs 0
   name BackdropNode18
@@ -52,7 +44,7 @@ Group {
   label "unpremult / blur trick"
   note_font Verdana
   note_font_size 42
-  xpos 125
+  xpos 653
   ypos 25
   bdwidth 856
   bdheight 999
@@ -66,8 +58,32 @@ Group {
   note_font_size 42
   xpos -1098
   ypos -281
-  bdwidth 2073
-  bdheight 292
+  bdwidth 2603
+  bdheight 277
+ }
+ BackdropNode {
+  inputs 0
+  name BackdropNode19
+  tile_color 0x7171c600
+  label "mask to smear back over shot"
+  note_font Verdana
+  note_font_size 42
+  xpos -239
+  ypos 27
+  bdwidth 649
+  bdheight 976
+ }
+ BackdropNode {
+  inputs 0
+  name BackdropNode1
+  tile_color 0x7171c600
+  label "Restore detail"
+  note_font Verdana
+  note_font_size 42
+  xpos -833
+  ypos 14
+  bdwidth 546
+  bdheight 976
  }
  StickyNote {
   inputs 0
@@ -75,7 +91,7 @@ Group {
   label "bigger blur will smear\ncolour out further\nbut may cause\nbleed\nin areas of high contrast"
   note_font Verdana
   note_font_size 31
-  xpos 594
+  xpos 1122
   ypos 405
  }
  StickyNote {
@@ -84,7 +100,7 @@ Group {
   label "xor way \nisolates areas\nwith highest\namounts of blur\n(i.e\nmotion blur)"
   note_font Verdana
   note_font_size 31
-  xpos -866
+  xpos -338
   ypos 288
  }
  StickyNote {
@@ -92,7 +108,7 @@ Group {
   name StickyNote25
   label "tweak the \ndilate and \nblur to make\nnice"
   note_font Verdana
-  xpos -529
+  xpos -1
   ypos 581
  }
  StickyNote {
@@ -101,7 +117,7 @@ Group {
   label "choose which works best"
   note_font Verdana
   note_font_size 31
-  xpos -643
+  xpos -115
   ypos 774
  }
  StickyNote {
@@ -110,7 +126,7 @@ Group {
   label "this way \nsmears evenly\naround all\nedges"
   note_font Verdana
   note_font_size 31
-  xpos -317
+  xpos 211
   ypos 235
  }
  StickyNote {
@@ -137,7 +153,7 @@ Group {
   label "choke back alpha first\nso that no background\ncolour is bought in"
   note_font Verdana
   note_font_size 31
-  xpos 603
+  xpos 1131
   ypos 229
  }
  StickyNote {
@@ -146,7 +162,7 @@ Group {
   label "mask input - \nareas with solid matte\nwill be excluded from \nbeing effected"
   note_font Verdana
   note_font_size 31
-  xpos 1188
+  xpos 1716
   ypos -149
  }
  StickyNote {
@@ -155,7 +171,7 @@ Group {
   label "just to soften areas\nwith hard edges"
   note_font Verdana
   note_font_size 31
-  xpos 154
+  xpos 682
   ypos 670
  }
  Input {
@@ -164,23 +180,30 @@ Group {
   label "Your main image input"
   note_font Verdana
   xpos -1238
-  ypos -217
+  ypos -298
  }
-set N74de9550 [stack 0]
+set N50880b0 [stack 0]
  Dot {
   name Dot29
   note_font Verdana
   xpos -1204
   ypos -109
  }
-set N74debfe0 [stack 0]
+set N5089260 [stack 0]
+ Dot {
+  name Dot18
+  note_font Verdana
+  xpos -1204
+  ypos 1612
+ }
+push $N5089260
  Unpremult {
   name Unpremult2
   note_font Verdana
   xpos -1073
   ypos -108
  }
-push $N74debfe0
+push $N5089260
  Switch {
   inputs 2
   which {{"\[value parent.already_premulted]" i}}
@@ -195,39 +218,72 @@ push $N74debfe0
   xpos -901
   ypos -52
  }
-set N74df6850 [stack 0]
+set N1924d430 [stack 0]
+ Dot {
+  name Dot5
+  xpos -562
+  ypos -52
+ }
+set Nbb06060 [stack 0]
+ Dot {
+  name Dot6
+  xpos -562
+  ypos 162
+ }
+set N523b9a0 [stack 0]
+push $N523b9a0
+ Blur {
+  size {{"\[value parent.sharpness]" i}}
+  name Blur1
+  xpos -728
+  ypos 211
+ }
+ Merge2 {
+  inputs 2
+  operation divide
+  name Merge3
+  xpos -596
+  ypos 283
+ }
+ ColorCorrect {
+  saturation 0
+  name ColorCorrect1
+  xpos -596
+  ypos 375
+ }
+push $Nbb06060
  Dot {
   name Dot17
   note_font Verdana
-  xpos -486
+  xpos 42
   ypos -52
  }
-set N74df9310 [stack 0]
+set N1924e5e0 [stack 0]
  Dot {
   name Dot38
   note_font Verdana
-  xpos -486
+  xpos 42
   ypos 122
  }
-set N20c2e450 [stack 0]
+set N1924f790 [stack 0]
  Dot {
   name Dot145
   note_font Verdana
-  xpos -567
+  xpos -39
   ypos 122
  }
-set N20c38830 [stack 0]
+set N19250940 [stack 0]
  Dot {
   name Dot138
   note_font Verdana
-  xpos -620
+  xpos -92
   ypos 185
  }
-push $N20c38830
+push $N19250940
  Dot {
   name Dot39
   note_font Verdana
-  xpos -524
+  xpos 4
   ypos 193
  }
  Merge2 {
@@ -235,7 +291,7 @@ push $N20c38830
   operation xor
   name Merge14
   note_font Verdana
-  xpos -599
+  xpos -71
   ypos 243
  }
  Dilate {
@@ -243,7 +299,7 @@ push $N20c38830
   size {{"\[value parent.dilate_mask]" i}}
   name Dilate2
   note_font Verdana
-  xpos -599
+  xpos -71
   ypos 319
  }
  Grade {
@@ -252,33 +308,33 @@ push $N20c38830
   black_clamp false
   name Grade16
   note_font Verdana
-  xpos -599
+  xpos -71
   ypos 394
  }
  Clamp {
   name Clamp2
   note_font Verdana
-  xpos -599
+  xpos -71
   ypos 432
  }
  Blur {
   size {{"\[value parent.blur_mask]" i}}
   name Blur13
   note_font Verdana
-  xpos -599
+  xpos -71
   ypos 516
  }
  Dot {
   name Dot156
   note_font Verdana
-  xpos -565
+  xpos -37
   ypos 659
  }
-push $N20c2e450
+push $N1924f790
  Dot {
   name Dot20
   note_font Verdana
-  xpos -409
+  xpos 119
   ypos 122
  }
  Dilate {
@@ -286,7 +342,7 @@ push $N20c2e450
   size {{"-\[value parent.dilate_mask]" i}}
   name Dilate4
   note_font Verdana
-  xpos -443
+  xpos 85
   ypos 271
  }
  Grade {
@@ -297,33 +353,33 @@ push $N20c2e450
   black_clamp false
   name Grade18
   note_font Verdana
-  xpos -443
+  xpos 85
   ypos 344
  }
  Invert {
   channels alpha
   name Invert4
   note_font Verdana
-  xpos -443
+  xpos 85
   ypos 392
  }
  Clamp {
   name Clamp8
   note_font Verdana
-  xpos -443
+  xpos 85
   ypos 430
  }
  Blur {
   size {{"\[value parent.blur_mask]" i}}
   name Blur17
   note_font Verdana
-  xpos -443
+  xpos 85
   ypos 510
  }
  Dot {
   name Dot147
   note_font Verdana
-  xpos -409
+  xpos 119
   ypos 670
  }
  Switch {
@@ -331,53 +387,53 @@ push $N20c2e450
   which {{"\[value parent.xor_edge_detect]" i}}
   name Switch3
   note_font Verdana
-  xpos -521
+  xpos 7
   ypos 747
  }
-push $N74df9310
+push $N1924e5e0
  Dot {
   name Dot71
   note_font Verdana
-  xpos 517
+  xpos 1045
   ypos -52
  }
  Dot {
   name Dot1
   note_font Verdana
-  xpos 517
+  xpos 1045
   ypos 100
  }
-set N20c95860 [stack 0]
-push $N20c95860
+set N19261f20 [stack 0]
+push $N19261f20
  Input {
   inputs 0
-  name MASK
-  label "The area to omit from being using"
+  name OMIT
+  label "The area to omit from being affected"
   note_font Verdana
-  xpos 1054
-  ypos -111
+  xpos 1582
+  ypos -260
   number 1
  }
  Dot {
   name Dot2
   note_font Verdana
-  xpos 1088
+  xpos 1616
   ypos 50
  }
-set N20c955e0 [stack 0]
+set N19264280 [stack 0]
  Merge2 {
   inputs 2
   operation out
   name Merge1
   note_font Verdana
-  xpos 560
+  xpos 1088
   ypos 147
  }
  Switch {
   inputs 2
   name Switch4
   note_font Verdana
-  xpos 483
+  xpos 1011
   ypos 209
  }
  FilterErode {
@@ -385,7 +441,7 @@ set N20c955e0 [stack 0]
   size {{"\[value parent.pre_choke]" i}}
   name FilterErode2
   note_font Verdana
-  xpos 483
+  xpos 1011
   ypos 280
  }
  Grade {
@@ -395,93 +451,74 @@ set N20c955e0 [stack 0]
   black_clamp false
   name Grade19
   note_font Verdana
-  selected true
-  xpos 483
+  xpos 1011
   ypos 341
  }
  Clamp {
   channels alpha
   name Clamp4
   note_font Verdana
-  xpos 483
+  xpos 1011
   ypos 390
  }
  Premult {
   name Premult3
   note_font Verdana
-  xpos 483
+  xpos 1011
   ypos 471
  }
  Blur {
   size {{"\[value parent.pre_blur]" i}}
   name Blur8
   note_font Verdana
-  xpos 483
+  xpos 1011
   ypos 560
  }
  Unpremult {
   name Unpremult1
   note_font Verdana
-  xpos 483
+  xpos 1011
   ypos 643
  }
  Blur {
   size {{"\[value parent.post_blur]" i}}
   name Blur20
   note_font Verdana
-  xpos 483
+  xpos 1011
   ypos 704
  }
  Dot {
   name Dot61
   note_font Verdana
-  xpos 517
+  xpos 1045
   ypos 795
  }
  ShuffleCopy {
   inputs 2
   name ShuffleCopy1
   note_font Verdana
-  xpos -521
+  xpos 7
   ypos 901
  }
  Premult {
   name Premult4
   note_font Verdana
-  xpos -521
+  xpos 7
   ypos 1045
  }
-set N20ce0b40 [stack 0]
- Shuffle {
-  red alpha
-  green alpha
-  blue alpha
-  name Shuffle1
-  xpos -314
-  ypos 1053
-  disable true
- }
-push $N74debfe0
- Dot {
-  name Dot18
-  note_font Verdana
-  xpos -1204
-  ypos 1612
- }
-push $N20ce0b40
  Dot {
   name Dot4
   note_font Verdana
-  xpos -487
+  xpos 41
   ypos 1122
  }
-set N20cf0460 [stack 0]
-push $N20cf0460
-push $N20c955e0
+set N1928c5a0 [stack 0]
+push $N1928c5a0
+push $N19264280
  Dot {
   name Dot3
   note_font Verdana
-  xpos 1088
+  xpos 1616
   ypos 967
  }
  Merge2 {
@@ -489,17 +526,37 @@ push $N20c955e0
   operation out
   name Merge2
   note_font Verdana
-  xpos -452
+  xpos 76
   ypos 1192
  }
  Switch {
   inputs 2
   name Switch5
   note_font Verdana
-  xpos -521
+  xpos 7
   ypos 1253
  }
-push $N74df6850
+ Unpremult {
+  name Unpremult3
+  xpos -471
+  ypos 1330
+ }
+ Merge2 {
+  inputs 2
+  operation multiply
+  output {rgba.red rgba.green rgba.blue -rgba.alpha}
+  mix {{"\[value parent.amount]" i}}
+  name Merge4
+  xpos -596
+  ypos 1351
+ }
+set Nba4e0b0 [stack 0]
+ Premult {
+  name Premult1
+  xpos -596
+  ypos 1394
+ }
+push $N1924d430
  Merge2 {
   inputs 2
   name Merge13
@@ -514,14 +571,14 @@ push $N74df6850
   xpos -1238
   ypos 1727
  }
-set N20c05e80 [stack 0]
+set N192981e0 [stack 0]
  Premult {
   name Premult10
   note_font Verdana
   xpos -1130
   ypos 1789
  }
-push $N20c05e80
+push $N192981e0
  Switch {
   inputs 2
   which {{"\[value parent.output_premulted]" i}}
@@ -530,13 +587,7 @@ push $N20c05e80
   xpos -1238
   ypos 1880
  }
-set N20c12d50 [stack 0]
-push 0
-push 0
-push 0
-push 0
-push $N74de9550
-push $N20c12d50
+set N1929e7e0 [stack 0]
  Dot {
   name Dot19
   note_font Verdana
@@ -549,13 +600,20 @@ push $N20c12d50
   xpos -1238
   ypos 2007
  }
+push $N1929e7e0
+push 0
+push 0
+push 0
+push 0
+push $N50880b0
+push $Nba4e0b0
  Viewer {
   inputs 7
   center_fstop 0
   input_process false
   name Viewer1
   note_font Verdana
-  xpos -1897
-  ypos 547
+  xpos -2639
+  ypos 1011
  }
 end_group

@@ -1,42 +1,58 @@
 # colour-smear-for-Nuke
 #Smear out the colour of your A plate to create better edges.
 
-set cut_paste_input [stack 0]
-version 6.3 v4
-push $cut_paste_input
 Group {
  name Colour_Smear
  note_font Verdana
  selected true
- xpos -16
- ypos 113
+ xpos -7
+ ypos 1452
  addUserKnob {20 User}
  addUserKnob {26 smearing l Smearing T ""}
- addUserKnob {6 already_premulted l "Click if input is already premulted" t "Click checkbox \"on\" if image is already premulted" +STARTLINE}
+ addUserKnob {6 already_premulted l "Input is premultiplied?" t "Click checkbox \"on\" if image is already premulted" +STARTLINE}
+ already_premulted true
  addUserKnob {7 pre_choke l Pre-choke R 0 30}
- pre_choke 5.5
+ pre_choke 2.5
  addUserKnob {7 pre_contrast l "Pre Contrast" R 0 0.5}
+ pre_contrast 0.084
  addUserKnob {7 pre_blur l Pre-blur R 0 100}
- pre_blur 10
+ pre_blur 8.5
  addUserKnob {7 post_blur l "Post Blur" R 0 100}
- post_blur 5
+ post_blur 5.5
  addUserKnob {26 ""}
  addUserKnob {26 Masking}
  addUserKnob {6 xor_edge_detect l "Use XOR edge detect method?" t "XOR edge detect will isolate edge mask to areas that are blurred. Regular edge detect method will apply smear evenly all the way around." +STARTLINE}
  addUserKnob {7 dilate_mask l "Dilate Mask" R 0 30}
- dilate_mask 2
+ dilate_mask 2.8
  addUserKnob {7 blur_mask l "Blur Mask" R 0 100}
- blur_mask 5
- addUserKnob {6 output_premulted l "Click to output premultiplied image" +STARTLINE}
+ blur_mask 3.5
+ addUserKnob {6 output_premulted l "Premultiply output" +STARTLINE}
+ output_premulted true
  addUserKnob {26 ""}
+ addUserKnob {6 outputmask l "Output smear mask?" +STARTLINE}
+ outputmask true
+ addUserKnob {26 smearmask_description l " (uses 'smearmask.a' channel - handy for regraining later)" -STARTLINE}
+ addUserKnob {26 "" +STARTLINE}
  addUserKnob {26 RestoreDetail l "Restore Detail"}
  addUserKnob {7 sharpness l Sharpness R 0 10}
  sharpness 10
  addUserKnob {7 amount l Amount}
- amount 0.66
- addUserKnob {26 "" +STARTLINE}
- addUserKnob {26 credit l "" +STARTLINE T "Colour Smear v2.0 by Richard Frazer - www.richardfrazer.com"}
+ amount 0.1
+ addUserKnob {26 ""}
+ addUserKnob {26 credit l "" +STARTLINE T "Colour Smear v2.1 by Richard Frazer - www.richardfrazer.com"}
 }
+ BackdropNode {
+  inputs 0
+  name BackdropNode1
+  tile_color 0x7171c600
+  label "Restore detail"
+  note_font Verdana
+  note_font_size 42
+  xpos -833
+  ypos 14
+  bdwidth 546
+  bdheight 976
+ }
  BackdropNode {
   inputs 0
   name BackdropNode18
@@ -48,18 +64,6 @@ Group {
   ypos 25
   bdwidth 856
   bdheight 999
- }
- BackdropNode {
-  inputs 0
-  name BackdropNode20
-  tile_color 0x7171c600
-  label "colour smear\n<-- in here goes plate with alpha (unpremulted) "
-  note_font Verdana
-  note_font_size 42
-  xpos -1098
-  ypos -281
-  bdwidth 2603
-  bdheight 277
  }
  BackdropNode {
   inputs 0
@@ -75,15 +79,15 @@ Group {
  }
  BackdropNode {
   inputs 0
-  name BackdropNode1
+  name BackdropNode20
   tile_color 0x7171c600
-  label "Restore detail"
+  label "colour smear\n<-- in here goes plate with alpha (unpremulted) "
   note_font Verdana
   note_font_size 42
-  xpos -833
-  ypos 14
-  bdwidth 546
-  bdheight 976
+  xpos -1098
+  ypos -281
+  bdwidth 2603
+  bdheight 277
  }
  StickyNote {
   inputs 0
@@ -182,28 +186,34 @@ Group {
   xpos -1238
   ypos -298
  }
-set N50880b0 [stack 0]
+set N6b5a400 [stack 0]
  Dot {
   name Dot29
   note_font Verdana
   xpos -1204
   ypos -109
  }
-set N5089260 [stack 0]
+set N6b5ee70 [stack 0]
+ Dot {
+  name Dot7
+  xpos -1204
+  ypos 1270
+ }
  Dot {
   name Dot18
   note_font Verdana
   xpos -1204
-  ypos 1612
+  ypos 1564
  }
-push $N5089260
+set N6b63950 [stack 0]
+push $N6b5ee70
  Unpremult {
   name Unpremult2
   note_font Verdana
   xpos -1073
   ypos -108
  }
-push $N5089260
+push $N6b5ee70
  Switch {
   inputs 2
   which {{"\[value parent.already_premulted]" i}}
@@ -218,68 +228,41 @@ push $N5089260
   xpos -901
   ypos -52
  }
-set N1924d430 [stack 0]
+set N6b78a00 [stack 0]
  Dot {
   name Dot5
   xpos -562
   ypos -52
  }
-set Nbb06060 [stack 0]
- Dot {
-  name Dot6
-  xpos -562
-  ypos 162
- }
-set N523b9a0 [stack 0]
-push $N523b9a0
- Blur {
-  size {{"\[value parent.sharpness]" i}}
-  name Blur1
-  xpos -728
-  ypos 211
- }
- Merge2 {
-  inputs 2
-  operation divide
-  name Merge3
-  xpos -596
-  ypos 283
- }
- ColorCorrect {
-  saturation 0
-  name ColorCorrect1
-  xpos -596
-  ypos 375
- }
-push $Nbb06060
+set N6b7d540 [stack 0]
  Dot {
   name Dot17
   note_font Verdana
   xpos 42
   ypos -52
  }
-set N1924e5e0 [stack 0]
+set N6bbbe30 [stack 0]
  Dot {
   name Dot38
   note_font Verdana
   xpos 42
   ypos 122
  }
-set N1924f790 [stack 0]
+set N6bc1fa0 [stack 0]
  Dot {
   name Dot145
   note_font Verdana
   xpos -39
   ypos 122
  }
-set N19250940 [stack 0]
+set N6bc6ac0 [stack 0]
  Dot {
   name Dot138
   note_font Verdana
   xpos -92
   ypos 185
  }
-push $N19250940
+push $N6bc6ac0
  Dot {
   name Dot39
   note_font Verdana
@@ -330,7 +313,7 @@ push $N19250940
   xpos -37
   ypos 659
  }
-push $N1924f790
+push $N6bc1fa0
  Dot {
   name Dot20
   note_font Verdana
@@ -390,7 +373,7 @@ push $N1924f790
   xpos 7
   ypos 747
  }
-push $N1924e5e0
+push $N6bbbe30
  Dot {
   name Dot71
   note_font Verdana
@@ -403,8 +386,8 @@ push $N1924e5e0
   xpos 1045
   ypos 100
  }
-set N19261f20 [stack 0]
-push $N19261f20
+set N6c79dd0 [stack 0]
+push $N6c79dd0
  Input {
   inputs 0
   name OMIT
@@ -420,7 +403,7 @@ push $N19261f20
   xpos 1616
   ypos 50
  }
-set N19264280 [stack 0]
+set N6c84a80 [stack 0]
  Merge2 {
   inputs 2
   operation out
@@ -512,9 +495,50 @@ set N19264280 [stack 0]
   xpos 41
   ypos 1122
  }
-set N1928c5a0 [stack 0]
-push $N1928c5a0
-push $N19264280
+set N6d13030 [stack 0]
+ Merge2 {
+  inputs 2
+  operation mask
+  name Merge5
+  xpos -498
+  ypos 1611
+ }
+push $N6b63950
+push $N6b7d540
+ Dot {
+  name Dot6
+  xpos -562
+  ypos 162
+ }
+set N6b81780 [stack 0]
+push $N6b81780
+ Blur {
+  size {{"\[value parent.sharpness]" i}}
+  name Blur1
+  xpos -728
+  ypos 211
+ }
+ Merge2 {
+  inputs 2
+  operation divide
+  name Merge3
+  xpos -596
+  ypos 283
+ }
+ ColorCorrect {
+  saturation 0
+  name ColorCorrect1
+  xpos -596
+  ypos 375
+ }
+ Dot {
+  name Dot8
+  xpos -554
+  ypos 1268
+ }
+push $N6d13030
+push $N6d13030
+push $N6c84a80
  Dot {
   name Dot3
   note_font Verdana
@@ -545,18 +569,17 @@ push $N19264280
   inputs 2
   operation multiply
   output {rgba.red rgba.green rgba.blue -rgba.alpha}
-  mix {{"\[value parent.amount]" i}}
+  mix {{"\[value parent.amount]"}}
   name Merge4
-  xpos -596
-  ypos 1351
+  xpos -588
+  ypos 1352
  }
-set Nba4e0b0 [stack 0]
  Premult {
   name Premult1
-  xpos -596
-  ypos 1394
+  xpos -588
+  ypos 1393
  }
-push $N1924d430
+push $N6b78a00
  Merge2 {
   inputs 2
   name Merge13
@@ -569,46 +592,76 @@ push $N1924d430
   name ShuffleCopy2
   note_font Verdana
   xpos -1238
-  ypos 1727
+  ypos 1725
  }
-set N192981e0 [stack 0]
+set N6d61c40 [stack 0]
  Premult {
   name Premult10
   note_font Verdana
   xpos -1130
   ypos 1789
  }
-push $N192981e0
+push $N6d61c40
  Switch {
   inputs 2
   which {{"\[value parent.output_premulted]" i}}
   name Switch2
   note_font Verdana
   xpos -1238
-  ypos 1880
+  ypos 1878
  }
-set N1929e7e0 [stack 0]
+ Dot {
+  name Dot9
+  xpos -1204
+  ypos 1996
+ }
+set Nf73c5670 [stack 0]
+add_layer {smearmask smearmask.a}
+ ShuffleCopy {
+  inputs 2
+  alpha alpha2
+  black alpha
+  out2 smearmask
+  name ShuffleCopy3
+  note_font Verdana
+  xpos -1140
+  ypos 2066
+ }
+push $Nf73c5670
+ Switch {
+  inputs 2
+  which {{"\[value parent.outputmask]"}}
+  name Switch6
+  note_font Verdana
+  selected true
+  xpos -1238
+  ypos 2141
+ }
+set Nf78bf650 [stack 0]
  Dot {
   name Dot19
   note_font Verdana
   xpos -1204
-  ypos 1906
+  ypos 2343
  }
  Output {
   name Output1
   note_font Verdana
   xpos -1238
-  ypos 2007
+  ypos 2422
  }
-push $N1929e7e0
+push $Nf73c5670
 push 0
 push 0
 push 0
 push 0
-push $N50880b0
-push $Nba4e0b0
+push $N6b5a400
+push $Nf78bf650
  Viewer {
   inputs 7
+  frame 1059
+  frame_range 1001-1368
+  fps 25
   center_fstop 0
   input_process false
   name Viewer1
@@ -617,3 +670,4 @@ push $Nba4e0b0
   ypos 1011
  }
 end_group
+
